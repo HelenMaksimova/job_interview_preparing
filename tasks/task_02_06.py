@@ -37,13 +37,15 @@ class ItemDiscountReportName(ItemDiscount):
         return f'Название: {cls.get_name()}'
 
 
-print(ItemDiscountReportName.get_info())
-print(ItemDiscountReportPrice.get_info())
+if __name__ == '__main__':
 
-print(getattr(ItemDiscountReportName, 'get_info')())
-print(getattr(ItemDiscountReportPrice, 'get_info')())
+    print(ItemDiscountReportName.get_info())
+    print(ItemDiscountReportPrice.get_info())
 
-a = ItemDiscountReportName()
-b = ItemDiscountReportPrice()
-print(a.get_info())
-print(b.get_info())
+    print(getattr(ItemDiscountReportName, 'get_info')())
+    print(getattr(ItemDiscountReportPrice, 'get_info')())
+
+    a = ItemDiscountReportName()
+    b = ItemDiscountReportPrice()
+    print(a.get_info())
+    print(b.get_info())
