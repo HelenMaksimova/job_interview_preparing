@@ -5,5 +5,5 @@ from productsapp.models import Product
 class ProductsListView(ListView):
     model = Product
     extra_context = {'title': 'Warehouse - главная'}
-    queryset = Product.objects.select_related().all()
+    queryset = Product.objects.select_related('vendor_name').all()
     template_name = 'goods_list.html'
