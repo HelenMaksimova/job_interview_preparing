@@ -16,9 +16,21 @@
     </nav>
 </div>
 
-<div style="padding: 15px;">
-    {% block page_content %} {% endblock %}
+<div style="display: flex;">
+
+    <div class="list-group" style="padding: 15px; width: 300px;">
+    <a href="{% url 'products:index' %}" class="list-group-item list-group-item-action active">Все товары</a>
+        {% for category in category_list %}
+            <a href="{% url 'products:category' category.id %}" class="list-group-item list-group-item-action">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+
+    <div style="padding: 15px; width: 100%;">
+        {% block page_content %} {% endblock %}
+    </div>
+
 </div>
+
 
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>

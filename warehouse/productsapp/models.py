@@ -17,6 +17,21 @@ class Vendor(models.Model):
         return self.name
 
 
+class Category(models.Model):
+    """
+    Модель раздела
+    """
+    name = models.CharField(max_length=255, verbose_name='название')
+    description = models.TextField(blank=True, verbose_name='описание')
+
+    class Meta:
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     """
     Модель продукта
@@ -44,6 +59,7 @@ class Product(models.Model):
     unit = models.CharField(max_length=2, choices=UNIT_CHOICES, default=PIECE, verbose_name='ед. измерения')
     vendor_name = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True,
                                     verbose_name='поставщик', related_name='products')
+    categories = models.ManyToManyField(Category, verbose_name='разделы', related_name='products')
 
     class Meta:
         verbose_name = 'Товар'

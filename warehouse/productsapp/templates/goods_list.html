@@ -9,6 +9,7 @@
             <th>Цена</th>
             <th>Единица измерения</th>
             <th>Поставщик</th>
+            <th>Разделы</th>
         </tr>
         </thead>
         <tbody>
@@ -17,8 +18,9 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.received_date }}</td>
                 <td>{{ product.price }}</td>
-                <td>{{ product.unit }}</td>
+                <td>{{ product.get_unit_display }}</td>
                 <td>{{ product.vendor_name.name }}</td>
+                <td>{% for category in product.categories.all %} {{ category.name }} <br> {% endfor %}</td>
             </tr>
         {% endfor %}
         </tbody>
