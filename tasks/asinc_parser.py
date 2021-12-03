@@ -18,7 +18,7 @@ async def get_data(url):
     session = aiohttp.ClientSession()
     async with session.get(url) as response:
         soup = BS(await response.text(), features="html.parser")
-        elements = soup.findAll('tr')
+        elements = soup.find('tbody').findAll('tr')
         data = [list(map(lambda x: x.text, element.findAll('td'))) for element in elements]
         print(data)
     await session.close()
