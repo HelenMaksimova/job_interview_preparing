@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:13.4
+    privileged: true
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: helen
+      POSTGRES_PASSWORD: learnpass
+      POSTGRES_DB: warehouse
+
+  backend:
+    build:
+      context: ./warehouse
+    environment:
+      DJANGO_SETTINGS_MODULE: warehouse.settings.prod_site_en
+    ports:
+      - 8080:8080
+    command: bash -c "
+      python manage.py migrate
+      && gunicorn warehouse.wsgi -b 0.0.0.0:8080
+      "
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - 8000:8000
+    depends_on:
+      - backend
