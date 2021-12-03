@@ -1,5 +1,8 @@
 from django.db import models
 from datetime import date
+from django.contrib.sites.models import Site
+from django.contrib.sites.managers import CurrentSiteManager
+from django.db.models import Manager
 
 
 class Vendor(models.Model):
@@ -23,10 +26,14 @@ class Category(models.Model):
     """
     name = models.CharField(max_length=255, verbose_name='название')
     description = models.TextField(blank=True, verbose_name='описание')
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True)
+    objects = Manager()
+    on_site = CurrentSiteManager('site')
 
     class Meta:
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -60,10 +67,14 @@ class Product(models.Model):
     vendor_name = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True,
                                     verbose_name='поставщик', related_name='products')
     categories = models.ManyToManyField(Category, verbose_name='разделы', related_name='products')
+    site = models.ManyToManyField(Site)
+    objects = Manager()
+    on_site = CurrentSiteManager('site')
 
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        ordering = ['id']
 
     def __str__(self):
         return self.name
