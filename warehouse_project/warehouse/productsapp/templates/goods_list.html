@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <table class="table table-bordered">
+        <thead>
+        <tr class="table-primary">
+            <th>Название</th>
+            <th>Дата поступления</th>
+            <th>Цена</th>
+            <th>Единица измерения</th>
+            <th>Поставщик</th>
+            <th>Разделы</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in object_list %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.received_date }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.get_unit_display }}</td>
+                <td>{{ product.vendor_name.name }}</td>
+                <td>{% for category in product.categories.all %} {{ category.name }} <br> {% endfor %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary">Добавить товар</button>
+{% endblock %}
+
+
