@@ -1,7 +1,8 @@
 import asyncio
 import aiohttp
-from bs4 import BeautifulSoup as BS
 from urllib.parse import urljoin
+
+from bs4 import BeautifulSoup as BS
 
 
 async def get_urls_list(base_url):
@@ -20,10 +21,13 @@ async def get_data(url):
         soup = BS(await response.text(), features="html.parser")
         elements = soup.find('tbody').findAll('tr')
         data = [list(map(lambda x: x.text, element.findAll('td'))) for element in elements]
-        print(data)
     await session.close()
+    return data
 
-urls_list = asyncio.run(get_urls_list('http://127.0.0.1:8000/'))
 
-features = [get_data(url) for url in urls_list]
-asyncio.run(asyncio.wait(features))
+async def main():
+    urls_list = await get_urls_list('http://127.0.0.1:8000/')
+    result, pending = await asyncio.wait([get_data(url) for url in urls_list])
+    print(*(item.result() for item in result), sep='\n')
+
+asyncio.run(main())
